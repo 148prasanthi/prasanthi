@@ -2,9 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('aws-s3') {
+            agent {
+                docker {
+                    image 'amazon/aws-cli'
+                    args "--entry-point=''"
+                }
+            }
             steps {
-                echo 'Hello World1'
+                withCredentials([usernamePassword(credentialsId: 'aws-creds', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                  sh '''
+                    aws --version
+                    aws s3 ls
+                  '''
+                }
             }
         }
     }
