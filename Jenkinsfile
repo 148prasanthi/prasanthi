@@ -10,14 +10,14 @@ pipeline {
                 }
             }
             environment {
-                s3-bucket-name = 'prasanthi-test'
+                s3_bucket_name = 'prasanthi-test'
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'aws-creds', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                   sh '''
                     aws --version
                     echo 'hello s3!' > index.html
-                    aws s3 cp index.html s3://$s3-bucket-name/index.html
+                    aws s3 cp index.html s3://$s3_bucket_name/index.html
                   '''
                 }
             }
